@@ -18,6 +18,8 @@ import sys
 import time
 from pathlib import Path
 
+import lab
+
 ROOT = Path(__file__).resolve().parents[1]
 GRAPHICS = """\
 hdr:false
@@ -66,12 +68,18 @@ def main() -> int:
     home = ROOT / ".local/framegen-present"
     if home.exists():
         subprocess.run(["rm", "-rf", str(home)], check=True)
-    home.mkdir(parents=True)
+    for folder in (home, home / "launcher", home / "xdg-data", home / "xdg-config"):
+        folder.mkdir(parents=True)
     (home / "horizon-graphics.txt").write_text(GRAPHICS)
     log_path = home / "client.log"
-    env = os.environ.copy()
-    env["HORIZON_HOME"] = str(home)
-    env["HORIZON_NO_AUDIO"] = "1"
+    # game_env keeps this home and turns audio off. A missing home would fall back to the player's folder.
+    env = lab.game_env(
+        os.environ,
+        HORIZON_HOME=home,
+        HORIZON_LAUNCHER_HOME=home / "launcher",
+        XDG_DATA_HOME=home / "xdg-data",
+        XDG_CONFIG_HOME=home / "xdg-config",
+    )
     command = [
         str(binary),
         "--resources",
