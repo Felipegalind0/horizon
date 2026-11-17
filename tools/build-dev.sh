@@ -7,6 +7,6 @@ cd "$(dirname "$0")/.."
 unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS
 echo "$(rustc --version)"
 echo "dev: profile fast, incremental, lto off, codegen-units 16"
-cargo build --locked --profile fast -p horizon-client -p horizon-prepare
+cargo build --locked --profile fast -p horizon-game -p horizon-prepare
 echo "binary: target/fast/horizon-client"
 echo "prepare: target/fast/horizon-prepare"
