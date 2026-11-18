@@ -17,4 +17,4 @@ export RUSTFLAGS="-C target-cpu=native"
 echo "$(rustc --version)"
 echo "runtime: profile release, thin LTO, codegen-units 1, target-cpu=native"
 cargo build --locked --release -p horizon-game
-echo "binary: target/release/horizon-client"
+echo "built binary: horizon-client"
